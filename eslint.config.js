@@ -1,7 +1,8 @@
 /* eslint.config.js */
 import { configs as nextConfigs } from '@next/eslint-plugin-next';
 
-export default [
+const pkg = require('@next/eslint-plugin-next');
+const { configs: nextConfigs } = pkg;port default [
   ...nextConfigs.recommended, // Règles Next.js recommandées
   {
     files: ['**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx'],

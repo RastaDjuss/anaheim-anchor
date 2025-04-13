@@ -1,13 +1,19 @@
 {
-  "extends": "./tsconfig.base.json",
-  "compileOnSave": false,
-  "files": [],
+  "paths": {
+    "@/*": [
+      "src/*"
+    ]
+  },
   "references": [
     {
-      "path": "./apps/anaheim-e2e"
+      "path": "./app/anaheim-e2e"
     },
     {
-      "path": "./apps/anaheim"
+      "path": "./app/anaheim"
     }
-  ]
+
+  ],
+  "exclude": [
+    "app/anaheim-e2e"
+  ],
 }

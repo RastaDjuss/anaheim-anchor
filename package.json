@@ -1,8 +1,10 @@
-{
+ {
   "name": "legacy-next-tailwind-counter",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
+
     "anchor": "cd anchor && anchor",
     "anchor-build": "cd anchor && anchor build",
     "anchor-localnet": "cd anchor && anchor localnet",
