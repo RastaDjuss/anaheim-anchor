@@ -20,7 +20,7 @@ pnpm-debug.log*
 anchor/target/
 .next/
 out/
-
+! th
 # Build output
 dist/
 build/
