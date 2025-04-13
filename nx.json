@@ -1,0 +1,103 @@
+{
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "tasksRunnerOptions": {
+    "default": {
+      "options": {
+        "nxCloud": false
+      }
+    }
+  },
+  "workspaceLayout": {
+    "appsDir": "apps",
+    "libsDir": "libs"
+  },
+  "targetDefaults": {
+    "anchor-build": {
+      "outputs": [
+        "{projectRoot}/y"
+      ],
+      "cache": true
+    },
+    "anchor-test": {
+      "outputs": [
+        "{projectRoot}/y"
+      ],
+      "cache": true
+    },
+    "dev": {
+      "outputs": [
+        "{projectRoot}/y"
+      ],
+      "cache": true
+    },
+    "build": {
+      "outputs": [
+        "{projectRoot}/y"
+      ],
+      "cache": true
+    },
+    "anchor": {
+      "cache": true,
+      "outputs": [
+        "{projectRoot}/y"
+      ]
+    },
+    "anchor-localnet": {
+      "cache": true,
+      "outputs": [
+        "{projectRoot}/y"
+      ]
+    },
+    "ci": {
+      "cache": true,
+      "outputs": [
+        "{projectRoot}/y"
+      ]
+    },
+    "start": {
+      "cache": true,
+      "outputs": [
+        "{projectRoot}/y"
+      ]
+    },
+    "lint": {
+      "cache": true,
+      "outputs": [
+        "{projectRoot}/y"
+      ]
+    },
+    "test": {
+      "cache": true,
+      "outputs": [
+        "{projectRoot}/y"
+      ]
+    }
+  },
+  "defaultBase": "master",
+  "plugins": [
+    {
+      "plugin": "@nx/eslint/plugin",
+      "options": {
+        "targetName": "eslint:lint"
+      }
+    },
+    {
+      "plugin": "@nx/jest/plugin",
+      "options": {
+        "targetName": "test"
+      }
+    },
+    {
+      "plugin": "@nx/next/plugin",
+      "options": {
+        "startTargetName": "next:start",
+        "buildTargetName": "next:build",
+        "devTargetName": "next:dev",
+        "serveStaticTargetName": "serve-static",
+        "buildDepsTargetName": "build-deps",
+        "watchDepsTargetName": "watch-deps"
+      }
+    }
+  ],
+  "nxCloudId": "67fb941dbdd1693cbb6a1599"
+}

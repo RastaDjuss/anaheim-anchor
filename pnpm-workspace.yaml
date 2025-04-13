@@ -1,0 +1,13 @@
+onlyBuiltDependencies:
+  - '@parcel/watcher'
+  - '@prisma/client'
+  - '@swc/core'
+  - bigint-buffer
+  - bufferutil
+  - cypress
+  - esbuild
+  - nx
+  - utf-8-validate
+
+ignoredBuiltDependencies:
+  - sharp

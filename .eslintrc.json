@@ -1,0 +1,15 @@
+module.exports = {
+  extends: [
+    'plugin:react/recommended',
+    'next/core-web-vitals'
+  ],
+  settings: {
+    react: {
+      version: 'detect'
+      // Détecte automatiquement la version de React
+    }
+  },
+  rules: {
+    'react/react-in-jsx-scope': 'off'
+  }
+}

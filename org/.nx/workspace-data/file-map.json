@@ -1,0 +1,236 @@
+{
+  "version": "6.0",
+  "nxVersion": "20.7.2",
+  "pathMappings": {},
+  "nxJsonPlugins": [
+    {
+      "name": "@nx/js/typescript",
+      "options": {
+        "typecheck": {
+          "targetName": "typecheck"
+        },
+        "build": {
+          "targetName": "build",
+          "configName": "tsconfig.lib.json",
+          "buildDepsName": "build-deps",
+          "watchDepsName": "watch-deps"
+        }
+      }
+    },
+    {
+      "name": "@nx/next/plugin",
+      "options": {
+        "startTargetName": "start",
+        "buildTargetName": "build",
+        "devTargetName": "dev",
+        "serveStaticTargetName": "serve-static",
+        "buildDepsTargetName": "build-deps",
+        "watchDepsTargetName": "watch-deps"
+      }
+    },
+    {
+      "name": "@nx/playwright/plugin",
+      "options": {
+        "targetName": "e2e"
+      }
+    },
+    {
+      "name": "@nx/eslint/plugin",
+      "options": {
+        "targetName": "lint"
+      }
+    },
+    {
+      "name": "@nx/jest/plugin",
+      "options": {
+        "targetName": "test"
+      }
+    }
+  ],
+  "fileMap": {
+    "nonProjectFiles": [
+      {
+        "file": "eslint.config.mjs",
+        "hash": "3462096019013144053"
+      },
+      {
+        "file": ".prettierrc",
+        "hash": "16267754514737964994"
+      },
+      {
+        "file": "README.md",
+        "hash": "3099015177637838417"
+      },
+      {
+        "file": "package.json",
+        "hash": "18343999856721532659"
+      },
+      {
+        "file": ".prettierignore",
+        "hash": "14688272390704683536"
+      },
+      {
+        "file": ".editorconfig",
+        "hash": "5443105041930014821"
+      },
+      {
+        "file": ".github/workflows/ci.yml",
+        "hash": "14727427998618680472"
+      },
+      {
+        "file": "package-lock.json",
+        "hash": "11435248887543522506"
+      },
+      {
+        "file": "jest.preset.js",
+        "hash": "9430166341120122740"
+      },
+      {
+        "file": "tsconfig.json",
+        "hash": "8940372855616787863"
+      },
+      {
+        "file": "jest.config.ts",
+        "hash": "6870352021923392442"
+      },
+      {
+        "file": ".vscode/extensions.json",
+        "hash": "11309362834336059819"
+      },
+      {
+        "file": "nx.json",
+        "hash": "14866499508628182164"
+      },
+      {
+        "file": ".gitignore",
+        "hash": "11781386581622614206"
+      },
+      {
+        "file": "tsconfig.base.json",
+        "hash": "18132073024976155609"
+      }
+    ],
+    "projectFileMap": {
+      "anaheim-e2e": [
+        {
+          "file": "apps/anaheim-e2e/eslint.config.mjs",
+          "hash": "1172734138943286526",
+          "deps": [
+            "npm:eslint-plugin-playwright"
+          ]
+        },
+        {
+          "file": "apps/anaheim-e2e/package.json",
+          "hash": "6147656884950972337"
+        },
+        {
+          "file": "apps/anaheim-e2e/playwright.config.ts",
+          "hash": "8969413046083606531",
+          "deps": [
+            "npm:@playwright/test",
+            "npm:@nx/playwright",
+            "npm:@nx/devkit"
+          ]
+        },
+        {
+          "file": "apps/anaheim-e2e/src/example.spec.ts",
+          "hash": "16019101014373124625",
+          "deps": [
+            "npm:@playwright/test"
+          ]
+        },
+        {
+          "file": "apps/anaheim-e2e/tsconfig.json",
+          "hash": "15001458170383955177"
+        }
+      ],
+      "anaheim": [
+        {
+          "file": "apps/anaheim/.swcrc",
+          "hash": "2742566327615098680"
+        },
+        {
+          "file": "apps/anaheim/eslint.config.mjs",
+          "hash": "9395599417347553521",
+          "deps": [
+            "npm:@eslint/eslintrc",
+            "npm:@eslint/js",
+            "npm:@nx/eslint-plugin"
+          ]
+        },
+        {
+          "file": "apps/anaheim/index.d.ts",
+          "hash": "5498222895072842432"
+        },
+        {
+          "file": "apps/anaheim/jest.config.ts",
+          "hash": "8329200694105054870"
+        },
+        {
+          "file": "apps/anaheim/next.config.js",
+          "hash": "17252635002163063865",
+          "deps": [
+            "npm:@nx/next"
+          ]
+        },
+        {
+          "file": "apps/anaheim/package.json",
+          "hash": "18398991517577016405",
+          "deps": [
+            "npm:next",
+            "npm:react",
+            "npm:react-dom"
+          ]
+        },
+        {
+          "file": "apps/anaheim/postcss.config.js",
+          "hash": "2759402739052110475"
+        },
+        {
+          "file": "apps/anaheim/public/.gitkeep",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/anaheim/public/favicon.ico",
+          "hash": "9303420814833116677"
+        },
+        {
+          "file": "apps/anaheim/specs/index.spec.tsx",
+          "hash": "2873936096691223229",
+          "deps": [
+            "npm:react",
+            "npm:@testing-library/react"
+          ]
+        },
+        {
+          "file": "apps/anaheim/src/app/api/hello/route.ts",
+          "hash": "495073956729887886"
+        },
+        {
+          "file": "apps/anaheim/src/app/global.css",
+          "hash": "291024361394925992"
+        },
+        {
+          "file": "apps/anaheim/src/app/layout.tsx",
+          "hash": "497922960152254597"
+        },
+        {
+          "file": "apps/anaheim/src/app/page.tsx",
+          "hash": "11331277280438635212"
+        },
+        {
+          "file": "apps/anaheim/tailwind.config.js",
+          "hash": "5937918000814531646"
+        },
+        {
+          "file": "apps/anaheim/tsconfig.json",
+          "hash": "5168842584333143412"
+        },
+        {
+          "file": "apps/anaheim/tsconfig.spec.json",
+          "hash": "5667077840779508676"
+        }
+      ]
+    }
+  }
+}

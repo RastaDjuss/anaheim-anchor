@@ -1,0 +1,10 @@
+{
+  "metadata": {
+    "name": "anaheim",
+    "version": "1.0.0",
+    "spec": "some_spec"
+  },
+  "accounts": ["..."],
+  "instructions": ["..."],
+
+}

@@ -1,0 +1,4 @@
+anaheim/.nx/cache/**/*.pack filter=lfs diff=lfs merge=lfs -text
+r2-worker/node_modules/**/*.bin filter=lfs diff=lfs merge=lfs -text
+*.png filter=lfs diff=lfs merge=lfs -text
+*.log filter=lfs diff=lfs merge=lfs -text
