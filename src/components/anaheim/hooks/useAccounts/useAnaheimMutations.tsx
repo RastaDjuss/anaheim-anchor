@@ -1,12 +1,14 @@
 import { useMutation } from '@tanstack/react-query'
 import { PublicKey } from '@solana/web3.js'
 import { toast } from 'react-hot-toast'
-import { transactionToast } from '@/components/ui/ui-toast'
-import { useAnaheimProgram } from './useAnaheimProgram'
+import { transactionToast } from '../../../ui/ui-layout'
+import { useAnaheimProgram } from '../usePrograms/useAnaheimProgram'
+
+const anaheimProgramInstance = new useAnaheimProgram();
 
 // Mutations for interacting with individual accounts
 export function useAnaheimMutations(accountPubkey?: PublicKey | null) {
-    const { program } = useAnaheimProgram()
+    const program = anaheimProgramInstance.program;
 
     if (!program) throw new Error('Anaheim Program is not initialized')
 

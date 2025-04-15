@@ -1,10 +1,8 @@
-import {Program} from '@coral-xyz/anchor';
 import {Connection, PublicKey} from '@solana/web3.js'; // Ensure the package is installed: `npm install @solana/web3.js` and its types are added
 import {useAnchorWallet} from "@solana/wallet-adapter-react";
 import {AnchorProvider, Wallet} from "@coral-xyz/anchor";
-// Add the following TypeScript-compatible IDL type definition
 import { Idl } from "@coral-xyz/anchor";
-import {Command} from "commander";
+import {Program} from '@coral-xyz/anchor';
 
 const initialProgramId = new PublicKey("coUnmi3oBUtwtd9fjeAvSsJssXh5A5xyPbhpewyzRVF"); // Correctly cast to PublicKey
 
@@ -36,7 +34,7 @@ export interface AnaheimAccount {
     };
 }
 
-export async function fetchAnaheimAccounts(program: Command): Promise<AnaheimAccount[]> {
+export async function fetchAnaheimAccounts(program: Program): Promise<AnaheimAccount[]> {
     if (!program) throw new Error('Program is not initialized');
 
     // Fetch all accounts in Anaheim program

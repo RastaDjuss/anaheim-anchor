@@ -1,11 +1,11 @@
 import { PublicKey } from "@solana/web3.js";
-import { useAnaheimProgram } from "./useAnaheimProgram";
-import {useTransactionToast} from "@/components/ui/ui-layout";
+import { useAnaheimProgram } from "../../../../components/anaheim/hooks/usePrograms/useAnaheimProgram";
+import { useTransactionToast } from '../../../../components/ui/ui-layout';
 import {useMutation, useQuery} from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
 export function useAnaheimAccount(account: { account: PublicKey }) {
-    const { program } = useAnaheimProgram();
+    const program = new useAnaheimProgram();
     const cluster = process.env.NEXT_PUBLIC_CLUSTER || 'default-cluster';
     const transactionToast = useTransactionToast()
 

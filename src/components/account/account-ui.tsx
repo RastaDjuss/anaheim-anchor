@@ -6,7 +6,7 @@ import { IconRefresh } from '@tabler/icons-react'
 import { useQueryClient } from '@tanstack/react-query'
 import { useMemo, useState } from 'react'
 import { AppModal, ellipsify } from '../ui/ui-layout'
-import { useCluster } from '../cluster/cluster-data-access'
+import { useCluster } from '../../components/cluster/is-authenticated'
 import { ExplorerLink } from '../cluster/cluster-ui'
 import {
   useGetBalance,
@@ -35,7 +35,7 @@ export function AccountChecker() {
   return <AccountBalanceCheck address={publicKey} />
 }
 export function AccountBalanceCheck({ address }: { address: PublicKey }) {
-  const { cluster } = useCluster()
+  const { cluster } = useCluster() as { cluster: { name: string; network?: string } }
   const mutation = useRequestAirdrop({ address })
   const query = useGetBalance({ address })
 
@@ -46,7 +46,7 @@ export function AccountBalanceCheck({ address }: { address: PublicKey }) {
     return (
       <div className="alert alert-warning text-warning-content/80 rounded-none flex justify-center">
         <span>
-          You are connected to <strong>{cluster.name}</strong> but your account is not found on this cluster.
+          You are connected to <strong>{cluster?.name ?? 'unknown'}</strong> but your account is not found on this cluster.
         </span>
         <button
           className="btn btn-xs btn-neutral"
@@ -62,7 +62,7 @@ export function AccountBalanceCheck({ address }: { address: PublicKey }) {
 
 export function AccountButtons({ address }: { address: PublicKey }) {
   const wallet = useWallet()
-  const { cluster } = useCluster()
+  const { cluster } = useCluster() as { cluster?: { name: string; network?: string } }
   const [showAirdropModal, setShowAirdropModal] = useState(false)
   const [showReceiveModal, setShowReceiveModal] = useState(false)
   const [showSendModal, setShowSendModal] = useState(false)
@@ -74,7 +74,7 @@ export function AccountButtons({ address }: { address: PublicKey }) {
       <ModalSend address={address} show={showSendModal} hide={() => setShowSendModal(false)} />
       <div className="space-x-2">
         <button
-          disabled={cluster.network?.includes('mainnet')}
+          disabled={cluster?.network?.includes('mainnet')}
           className="btn btn-xs lg:btn-md btn-outline"
           onClick={() => setShowAirdropModal(true)}
         >

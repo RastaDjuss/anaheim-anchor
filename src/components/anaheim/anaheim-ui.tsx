@@ -7,7 +7,7 @@ import { ExplorerLink } from '../cluster/cluster-ui'
 import { useAnaheimProgram, useAnaheimProgramAccount } from './anaheim-data-access'
 
 export function AnaheimCreate() {
-  const { initialize } = useAnaheimProgram()
+  const { initialize } = useAnaheimProgram(programId)
 
   return (
     <button
@@ -21,7 +21,7 @@ export function AnaheimCreate() {
 }
 
 export function AnaheimList() {
-  const { accounts, getProgramAccount } = useAnaheimProgram()
+  const { accounts, getProgramAccount } = useAnaheimProgram(programId)
 
   if (getProgramAccount.isLoading) {
     return <span className="loading loading-spinner loading-lg"></span>
