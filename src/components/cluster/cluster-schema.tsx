@@ -16,10 +16,6 @@ export function ClusterType() {
 
 enum ClusterNetworkEnum {
     // Dynamically populate entries based on the ClusterNetwork object
-
-}
-
-enum ClusterNetworkEnum {
 }
 
 export const clusterSchema: ZodObject<{
