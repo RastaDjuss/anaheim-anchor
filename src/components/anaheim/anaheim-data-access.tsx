@@ -1,104 +1,165 @@
-'use client'
+'use client';
 
-import { getAnaheimProgram, getAnaheimProgramId } from '@project/anchor'
-import { useConnection } from '@solana/wallet-adapter-react'
-import { Cluster, Keypair, PublicKey } from '@solana/web3.js'
-import { useMutation, useQuery } from '@tanstack/react-query'
-import { useMemo } from 'react'
-import toast from 'react-hot-toast'
-import { useCluster } from '../cluster/cluster-data-access'
-import { useAnchorProvider } from '../solana/solana-provider'
-import { useTransactionToast } from '../ui/ui-layout'
+import { useConnection } from '@solana/wallet-adapter-react';
+import { Keypair, PublicKey } from '@solana/web3.js';
+import { useMutation, useQuery, UseQueryResult } from '@tanstack/react-query';
+import { useMemo } from 'react';
+import toast from 'react-hot-toast';
+import { AnchorProvider, Idl, Program } from '@coral-xyz/anchor';
+import { useCluster } from '../cluster/is-authenticated';
+import { useAnchorProvider } from '../solana/solana-provider';
+import { useTransactionToast } from '../ui/ui-layout';
+import idlData from '../../../anchor/target/idl/anaheim.json';
+import * as z from 'zod';
 
-export function useAnaheimProgram() {
-  const { connection } = useConnection()
-  const { cluster } = useCluster()
-  const transactionToast = useTransactionToast()
-  const provider = useAnchorProvider()
-  const programId = useMemo(() => getAnaheimProgramId(cluster.network as Cluster), [cluster])
-  const program = useMemo(() => getAnaheimProgram(provider, programId), [provider, programId])
+const idlSchema = z.object({
+  version: z.string(),
+  name: z.string(),
+  instructions: z.array(z.object({
+    name: z.string(),
+    accounts: z.array(z.object({
+      name: z.string(),
+      isMut: z.boolean().optional(),
+      isSigner: z.boolean().optional(),
+    })),
+    args: z.array(z.object({
+      name: z.string(),
+      type: z.any(),
+    })),
+  })),
+  accounts: z.optional(z.array(z.any())),  // Remplacez selon vos besoins
+});
 
-  const accounts = useQuery({
-    queryKey: ['anaheim', 'all', { cluster }],
-    queryFn: () => program.account.anaheim.all(),
-  })
+const idlValidated = idlSchema.safeParse(idlData);
 
-  const getProgramAccount = useQuery({
-    queryKey: ['get-program-account', { cluster }],
-    queryFn: () => connection.getParsedAccountInfo(programId),
-  })
-
-  const initialize = useMutation({
-    mutationKey: ['anaheim', 'initialize', { cluster }],
-    mutationFn: (keypair: Keypair) =>
-      program.methods.initialize().accounts({ anaheim: keypair.publicKey }).signers([keypair]).rpc(),
-    onSuccess: (signature) => {
-      transactionToast(signature)
-      return accounts.refetch()
-    },
-    onError: () => toast.error('Failed to initialize account'),
-  })
-
-  return {
-    program,
-    programId,
-    accounts,
-    getProgramAccount,
-    initialize,
-  }
+if (!idlValidated.success) {
+  console.error('IDL data validation failed:', idlValidated.error);
+  throw new Error('Invalid IDL data');
 }
 
-export function useAnaheimProgramAccount({ account }: { account: PublicKey }) {
-  const { cluster } = useCluster()
-  const transactionToast = useTransactionToast()
-  const { program, accounts } = useAnaheimProgram()
+return new Program(idlValidated.data, programId, provider);
+// Fonction pour récupérer l'ID du programme basé sur le réseau
+function getAnaheimProgramId(network: string): PublicKey {
+  const programIds: Record<string, string> = {
+    'mainnet-beta': 'YourMainnetProgramIdString',
+    devnet: 'YourDevnetProgramIdString',
+    testnet: 'YourTestnetProgramIdString',
+  };
 
-  const accountQuery = useQuery({
-    queryKey: ['anaheim', 'fetch', { cluster, account }],
-    queryFn: () => program.account.anaheim.fetch(account),
-  })
+  if (!programIds[network]) {
+    console.warn(`Unknown network: '${network}'. Using default program ID.`);
+  }
 
-  const closeMutation = useMutation({
-    mutationKey: ['anaheim', 'close', { cluster, account }],
-    mutationFn: () => program.methods.close().accounts({ anaheim: account }).rpc(),
-    onSuccess: (tx) => {
-      transactionToast(tx)
-      return accounts.refetch()
+  return new PublicKey(programIds[network] || 'coUnmi3oBUtwtd9fjeAvSsJssXh5A5xyPbhpewyzRVF');
+}
+
+export function useAnaheimProgram() {
+  // Récupération des dépendances via des hooks existants
+  const { connection } = useConnection();
+  const { cluster } = useCluster();
+  const provider = useAnchorProvider();
+  const transactionToast = useTransactionToast();
+
+  // Programme ID basé sur le réseau actuel
+  const programId = useMemo(() => {
+    if (!cluster?.network) {
+      console.error('Cluster network is undefined. Default programId will be used.');
+      return getAnaheimProgramId('default');
+    }
+    return getAnaheimProgramId(cluster.network);
+  }, [cluster?.network]);
+
+  // Initialisation du programme Anchor
+  const program = useMemo(() => {
+      if (!provider?.connection || !provider?.wallet) {
+        console.error('Provider is invalid: missing connection or wallet');
+        return null;
+      }
+
+      try {
+        return new Program(idlData as unknown as Idl, programId, provider ?? useAnchorProvider());
+        if (!provider?.connection || !provider?.wallet) {
+          console.error('Invalid provider instance. Falling back to default.');
+          return new Program(idlData as unknown as Idl, programId, useAnchorProvider());
+        }
+      } catch (error) {
+        console.error('Failed to initialize Anaheim program:', error);
+        return null;
+      }
     },
-  })
+    [provider, programId]);
 
-  const decrementMutation = useMutation({
-    mutationKey: ['anaheim', 'decrement', { cluster, account }],
-    mutationFn: () => program.methods.decrement().accounts({ anaheim: account }).rpc(),
-    onSuccess: (tx) => {
-      transactionToast(tx)
-      return accountQuery.refetch()
-    },
-  })
+  if (!program) {
+    console.warn('Program is not initialized yet. Dependent hooks may fail.');
+  }
 
-  const incrementMutation = useMutation({
-    mutationKey: ['anaheim', 'increment', { cluster, account }],
-    mutationFn: () => program.methods.increment().accounts({ anaheim: account }).rpc(),
-    onSuccess: (tx) => {
-      transactionToast(tx)
-      return accountQuery.refetch()
-    },
-  })
+  // Utilisation d'une requête React Query pour accéder aux comptes
+  const accountsQuery: UseQueryResult<unknown, Error> = useQuery({
+    queryKey: ['program-accounts', programId.toString()],
+    queryFn: async () => {
+      if (!program) {
+        throw new Error('Program is not initialized. Cannot fetch accounts.');
+      }
 
-  const setMutation = useMutation({
-    mutationKey: ['anaheim', 'set', { cluster, account }],
-    mutationFn: (value: number) => program.methods.set(value).accounts({ anaheim: account }).rpc(),
-    onSuccess: (tx) => {
-      transactionToast(tx)
-      return accountQuery.refetch()
+      const accountName = 'YourActualAccountName'; // Assurez-vous de remplacer par le nom correct du compte dans l'IDL
+      if (!(program.account as Record<string, any>)[accountName]) {
+        throw new Error(`Account '${accountName}' does not exist in the program.`);
+      }
+
+      try {
+        let accountsData: any;
+        accountsData = await (program.account as Record<string, any>)[accountName].all();
+        return accountsData;
+      } catch (error) {
+        console.error('Failed to fetch accounts:', error);
+        throw new Error('Error fetching accounts data.');
+      }
     },
-  })
+    enabled: !!program, // Désactive la requête si le programme n'est pas encore prêt
+  });
+
+  // Mutation pour l'initialisation des comptes
+  const initialize = useMutation({
+    mutationFn: async (keypair: Keypair) => {
+      if (!program || !provider) {
+        throw new Error('Program or Provider is unavailable');
+      }
+
+      try {
+        const tx = await program.methods
+          .initialize()
+          .accounts({
+            keypair: keypair.publicKey, // Remplacez ou mappez les comptes nécessaires à votre IDL
+          })
+          .signers([keypair])
+          .rpc();
+
+        return tx;
+      } catch (error) {
+        if (error instanceof Error) {
+          console.error('Initialization failed:', error);
+          throw new Error(`Initialization failed: ${error.message}`);
+        } else {
+          console.error('Initialization failed with an unknown error:', error);
+          throw new Error('Initialization failed with an unknown error');
+        }
+      }
+    },
+    onSuccess: (signature) => {
+      transactionToast(signature);
+      toast.success('Initialized successfully!');
+    },
+    onError: (error: Error) => {
+      toast.error(`Initialization failed: ${error.message}`);
+    },
+  });
 
   return {
-    accountQuery,
-    closeMutation,
-    decrementMutation,
-    incrementMutation,
-    setMutation,
-  }
+    connection,
+    cluster,
+    programId,
+    program,
+    accounts: accountsQuery,
+    initialize,
+  };
 }

@@ -1,38 +1,41 @@
-'use client'
+'use client';
 
-import { useWallet } from '@solana/wallet-adapter-react'
-import { WalletButton } from '../solana/solana-provider'
-import { AppHero, ellipsify } from '../ui/ui-layout'
-import { ExplorerLink } from '../cluster/cluster-ui'
-import { useAnaheimProgram } from './anaheim-data-access'
-import { AnaheimCreate, AnaheimList } from './anaheim-ui'
+import React, { useMemo } from 'react';
+import { toast } from 'react-hot-toast';
+import {
+  ConnectionProvider,
+  WalletProvider,
+} from '@solana/wallet-adapter-react';
+import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
+import {
+  PhantomWalletAdapter,
+  SolflareWalletAdapter,
+} from '@solana/wallet-adapter-wallets';
+import { Adapter } from '@solana/wallet-adapter-base';
+import { clusterApiUrl } from '@solana/web3.js';
 
-export default function AnaheimFeature() {
-  const { publicKey } = useWallet()
-  const { programId } = useAnaheimProgram()
+// SolanaProvider : Fournit le contexte Solana et les fonctionnalités wallet
+export const SolanaProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  // Endpoint Solana
+  const endpoint = useMemo(() => process.env.NEXT_PUBLIC_SOLANA_RPC_URL || clusterApiUrl('devnet'), []);
 
-  return publicKey ? (
-    <div>
-      <AppHero
-        title="Anaheim"
-        subtitle={
-          'Create a new account by clicking the "Create" button. The state of a account is stored on-chain and can be manipulated by calling the program\'s methods (increment, decrement, set, and close).'
-        }
-      >
-        <p className="mb-6">
-          <ExplorerLink path={`account/${programId}`} label={ellipsify(programId.toString())} />
-        </p>
-        <AnaheimCreate />
-      </AppHero>
-      <AnaheimList />
-    </div>
-  ) : (
-    <div className="max-w-4xl mx-auto">
-      <div className="hero py-[64px]">
-        <div className="hero-content text-center">
-          <WalletButton />
-        </div>
-      </div>
-    </div>
-  )
+  // Portefeuilles
+  const wallets: Adapter[] = useMemo(() => [new PhantomWalletAdapter(), new SolflareWalletAdapter()], []);
+
+  // Gestion des erreurs
+  const handleError = (error: Error) => {
+    console.error('Erreur de connexion à Solana:', error);
+    toast.error('Impossible de se connecter au réseau ou au portefeuille.');
+  };
+
+  return (
+    <ConnectionProvider endpoint={endpoint}>
+      <WalletProvider wallets={wallets} autoConnect onError={handleError}>
+        <WalletModalProvider>{children}</WalletModalProvider>
+      </WalletProvider>
+    </ConnectionProvider>
+  );
+};
+
+export class AnaheimFeature {
 }

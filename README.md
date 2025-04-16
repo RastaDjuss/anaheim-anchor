@@ -1,96 +1,75 @@
-# legacy-anaheim
+# Anaheim dApp - R=3.57 Putsch Token
 
-## Getting Started
+Bienvenue dans le dépôt officiel de la dApp **Anaheim** !
 
-### Prerequisites
+Ce projet est une application ouverte et décentralisée construite pour fonctionner sur la blockchain **Solana**, intégrant le token **R=3.57** (Chaotic Fractal AttraKThor Putsch Token). Il vise à révolutionner l'écosystème DeFi et DAO avec des solutions rapides, scalables, et régies par la communauté.
 
-- Node v18.18.0 or higher
+![R=3.57 Token](https://raw.githubusercontent.com/RastaDjuss/anarcoin-2.0/bc0cab788f42d164215c6fcbd78b24ae1cb47f26/anarcoin-dextools-banner.gif)
 
-- Rust v1.77.2 or higher
-- Anchor CLI 0.30.1 or higher
-- Solana CLI 1.18.17 or higher
+---
 
-### Installation
+## Caractéristiques principales
 
-#### Clone the repo
+- **Blockchain Solana :** Transactions rapides et peu coûteuses, idéales pour les systèmes DeFi.
+- **Gouvernance DAO :** Régie par une communauté grâce à des votes basés sur les tokens.
+- **Staking et récompenses :** Motiver une détention longue durée en redistribuant les frais de transaction.
+- **Interopérabilité :** Plans d'intégration multi-chaînes pour l'avenir, combinant DeFi, NFTs, DAO et bien plus.
 
-```shell
-git clone <repo-url>
-cd <repo-name>
-```
+---
 
-#### Install Dependencies
+## Tech Stack
 
-```shell
-pnpm install
-```
+Cet écosystème repose sur :
 
-#### Start the web app
+### Frontend :
+- **Next.js** : Framework de production React avec rendu côté serveur.
+- **TypeScript** : Développement robuste et typé pour une meilleure maintenabilité.
 
-```
-pnpm dev
-```
+### Backend & Blockchain :
+- **Solana** : Une blockchain rapide et incroyablement efficace.
+- **Anchor Framework** : Développement de smart contracts pour SPL Tokens et DAO sur Solana.
 
-## Apps
+---
 
-### anchor
+## Installation et Configuration
 
-This is a Solana program written in Rust using the Anchor framework.
+1. **Clonez le dépôt :**
+   ```bash
+   git clone <repo-url>
+   cd anaheim
+   ```
 
-#### Commands
+2. **Installez les dépendances avec pnpm :**
+   ```bash
+   pnpm install
+   ```
 
-You can use any normal anchor commands. Either move to the `anchor` directory and run the `anchor` command or prefix the
-command with `pnpm`, eg: `pnpm anchor`.
+3. **Créez un fichier `.env` :**
+   Configurez vos variables d'environnement pour Solana :
+   ```env
+   SOLANA_RPC_URL="https://api.mainnet-beta.solana.com"
+   SOLANA_PRIVATE_KEY="<votre_clé_privée_en_base58>"
+   ```
 
-#### Sync the program id:
+4. **Démarrez le projet :**
+   ```bash
+   pnpm dev
+   ```
 
-Running this command will create a new keypair in the `anchor/target/deploy` directory and save the address to the
-Anchor config file and update the `declare_id!` macro in the `./src/lib.rs` file of the program.
+---
 
-You will manually need to update the constant in `anchor/lib/counter-exports.ts` to match the new program id.
+## Scripts Utiles
 
-```shell
-pnpm anchor keys sync
-```
+- **Démarrage local :** `pnpm dev`
+- **Build production :** `pnpm build`
+- **Tests locaux Anchor :** `pnpm anchor-test`
 
-#### Build the program:
+---
 
-```shell
-pnpm anchor-build
-```
+## Documentation complémentaire
 
-#### Start the test validator with the program deployed:
+- **Whitepaper du Token :** [R=3.57 Whitepaper](./whitepaper.md)
+- **Contribution à la DAO :** [Discord officiel](https://discord.gg/Dt7zvuFPGf)
+- **Référence complète :** [Structure Projet](cleaned-tree.json)
 
-```shell
-pnpm anchor-localnet
-```
-
-#### Run the tests
-
-```shell
-pnpm anchor-test
-```
-
-#### Deploy to Devnet
-
-```shell
-pnpm anchor deploy --provider.cluster devnet
-```
-
-### web
-
-This is a React app that uses the Anchor generated client to interact with the Solana program.
-
-#### Commands
-
-Start the web app
-
-```shell
-pnpm dev
-```
-
-Build the web app
-
-```shell
-pnpm build
-```
+© 2023 **Anaheim - R=3.57**

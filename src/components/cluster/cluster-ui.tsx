@@ -1,176 +1,93 @@
-'use client'
+import React from 'react';
+import { WalletButton } from '@/components/solana/solana-provider';
 
-import { useConnection } from '@solana/wallet-adapter-react'
-import { IconTrash } from '@tabler/icons-react'
-import { useQuery } from '@tanstack/react-query'
-import { ReactNode, useState } from 'react'
-import { AppModal } from '../ui/ui-layout'
-import { ClusterNetwork, useCluster } from './cluster-data-access'
-import { Connection } from '@solana/web3.js'
-
-export function ExplorerLink({ path, label, className }: { path: string; label: string; className?: string }) {
-  const { getExplorerUrl } = useCluster()
-  return (
-    <a
-      href={getExplorerUrl(path)}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={className ? className : `link font-mono`}
-    >
-      {label}
-    </a>
-  )
+export interface ExplorerLinkProps {
+	path?: string;
+	label: string;
+	className?: string;
+	target?: string;
+	rel?: string;
 }
 
-export function ClusterChecker({ children }: { children: ReactNode }) {
-  const { cluster } = useCluster()
-  const { connection } = useConnection()
-
-  const query = useQuery({
-    queryKey: ['version', { cluster, endpoint: connection.rpcEndpoint }],
-    queryFn: () => connection.getVersion(),
-    retry: 1,
-  })
-  if (query.isLoading) {
-    return null
-  }
-  if (query.isError || !query.data) {
-    return (
-      <div className="alert alert-warning text-warning-content/80 rounded-none flex justify-center">
-        <span>
-          Error connecting to cluster <strong>{cluster.name}</strong>
-        </span>
-        <button className="btn btn-xs btn-neutral" onClick={() => query.refetch()}>
-          Refresh
-        </button>
-      </div>
-    )
-  }
-  return children
+function ImportedClusterUiSelect() {
+	return null;
 }
 
-export function ClusterUiSelect() {
-  const { clusters, setCluster, cluster } = useCluster()
-  return (
-    <div className="dropdown dropdown-end">
-      <label tabIndex={0} className="btn btn-primary rounded-btn">
-        {cluster.name}
-      </label>
-      <ul tabIndex={0} className="menu dropdown-content z-[1] p-2 shadow bg-base-100 rounded-box w-52 mt-4">
-        {clusters.map((item) => (
-          <li key={item.name}>
-            <button
-              className={`btn btn-sm ${item.active ? 'btn-primary' : 'btn-ghost'}`}
-              onClick={() => setCluster(item)}
-            >
-              {item.name}
-            </button>
-          </li>
-        ))}
-      </ul>
-    </div>
-  )
+export class ParentComponent extends React.Component {
+	render(): React.JSX.Element {
+		return (
+			<div className="flex-none space-x-2">
+				<WalletButton />
+				<ImportedClusterUiSelect /> {/* Utilisation d'un composant React valide */}
+			</div>
+		);
+	}
 }
 
-export function ClusterUiModal({ hideModal, show }: { hideModal: () => void; show: boolean }) {
-  const { addCluster } = useCluster()
-  const [name, setName] = useState('')
-  const [network, setNetwork] = useState<ClusterNetwork | undefined>()
-  const [endpoint, setEndpoint] = useState('')
-
-  return (
-    <AppModal
-      title={'Add Cluster'}
-      hide={hideModal}
-      show={show}
-      submit={() => {
-        try {
-          new Connection(endpoint)
-          if (name) {
-            addCluster({ name, network, endpoint })
-            hideModal()
-          } else {
-            console.log('Invalid cluster name')
-          }
-        } catch {
-          console.log('Invalid cluster endpoint')
-        }
-      }}
-      submitLabel="Save"
-    >
-      <input
-        type="text"
-        placeholder="Name"
-        className="input input-bordered w-full"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-      <input
-        type="text"
-        placeholder="Endpoint"
-        className="input input-bordered w-full"
-        value={endpoint}
-        onChange={(e) => setEndpoint(e.target.value)}
-      />
-      <select
-        className="select select-bordered w-full"
-        value={network}
-        onChange={(e) => setNetwork(e.target.value as ClusterNetwork)}
-      >
-        <option value={undefined}>Select a network</option>
-        <option value={ClusterNetwork.Devnet}>Devnet</option>
-        <option value={ClusterNetwork.Testnet}>Testnet</option>
-        <option value={ClusterNetwork.Mainnet}>Mainnet</option>
-      </select>
-    </AppModal>
-  )
+export default class ParentComponentImpl extends ParentComponent {
 }
 
-export function ClusterUiTable() {
-  const { clusters, setCluster, deleteCluster } = useCluster()
-  return (
-    <div className="overflow-x-auto">
-      <table className="table border-4 border-separate border-base-300">
-        <thead>
-          <tr>
-            <th>Name/ Network / Endpoint</th>
-            <th className="text-center">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {clusters.map((item) => (
-            <tr key={item.name} className={item?.active ? 'bg-base-200' : ''}>
-              <td className="space-y-2">
-                <div className="whitespace-nowrap space-x-2">
-                  <span className="text-xl">
-                    {item?.active ? (
-                      item.name
-                    ) : (
-                      <button title="Select cluster" className="link link-secondary" onClick={() => setCluster(item)}>
-                        {item.name}
-                      </button>
-                    )}
-                  </span>
-                </div>
-                <span className="text-xs">Network: {item.network ?? 'custom'}</span>
-                <div className="whitespace-nowrap text-gray-500 text-xs">{item.endpoint}</div>
-              </td>
-              <td className="space-x-2 whitespace-nowrap text-center">
-                <button
-                  disabled={item?.active}
-                  className="btn btn-xs btn-default btn-outline"
-                  onClick={() => {
-                    if (!window.confirm('Are you sure?')) return
-                    deleteCluster(item)
-                  }}
-                >
-                  <IconTrash size={16} />
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  )
+export function useCluster(): {
+	getExplorerUrl: (path: string) => string;
+} {
+	return {
+		getExplorerUrl: (path: string) => {
+			if (!path) {
+				throw new Error ( 'Path is required to generate the explorer URL' );
+			}
+			return `https://explorer.example.com/${path}`;
+		}
+	};
+}
+
+let exampleInstance: ExplorerLinkPropsImpl | null = null;
+
+export class ExplorerLinkPropsImpl implements ExplorerLinkProps {
+	className?: string;
+	label: string;
+	path?: string;
+	rel?: string;
+	target?: string;
+
+	constructor(props?: Partial<ExplorerLinkProps>) {
+		this.className = props?.className || '';
+		this.label = props?.label || 'Default Label';
+		this.path = props?.path;
+		this.rel = props?.rel || 'noopener noreferrer';
+		this.target = props?.target || '_blank';
+
+		if (!exampleInstance) {
+			exampleInstance = this;
+		}
+	}
+}
+
+export function ExplorerLink({
+															 path,
+															 label,
+															 className,
+															 target = '_blank',
+															 rel = 'noopener noreferrer'
+														 }: ExplorerLinkProps): JSX.Element {
+	const clusterData = useCluster ();
+
+	try {
+		const explorerUrl = clusterData.getExplorerUrl ( path ?? '' );
+		return (
+			<a
+				href={explorerUrl}
+				className={className}
+				target={target}
+				rel={rel}
+			>
+				{label}
+			</a>
+		);
+	} catch (error) {
+		console.error ( 'Failed to generate explorer URL:', error );
+		return <span>Error creating link</span>;
+	}
+}
+
+export class ClusterUiSelect {
 }

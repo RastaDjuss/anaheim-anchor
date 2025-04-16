@@ -1,127 +1,41 @@
 [
-  {"type":"directory","name":".","contents":[
-    {"type":"directory","name":"anchor","contents":[
-      {"type":"file","name":"Anchor.toml"},
-      {"type":"file","name":"Cargo.toml"},
-      {"type":"directory","name":"migrations","contents":[
-        {"type":"file","name":"deploy.ts"}
+  {"type":"directory","name":"src","contents":[
+    {"type":"directory","name":"app","contents":[
+      {"type":"directory","name":"account","contents":[
+        {"type":"directory","name":"[address]","contents":[
+          {"type":"file","name":"page.tsx"}
+        ]},
+        {"type":"file","name":"page.tsx"}
       ]},
-      {"type":"directory","name":"programs","contents":[
-        {"type":"directory","name":"anaheim","contents":[
-          {"type":"file","name":"Cargo.toml"},
-          {"type":"directory","name":"src","contents":[
-            {"type":"file","name":"lib.rs"}
-          ]},
-          {"type":"file","name":"Xargo.toml"}
+      {"type":"directory","name":"anaheim","contents":[
+        {"type":"file","name":"page.tsx"}
+      ]},
+      {"type":"directory","name":"api","contents":[
+        {"type":"directory","name":"hello","contents":[
+          {"type":"file","name":"route.ts"}
         ]}
       ]},
-      {"type":"directory","name":"src","contents":[
-        {"type":"file","name":"anaheim-exports.ts"},
-        {"type":"file","name":"index.ts"}
+      {"type":"directory","name":"clusters","contents":[
+        {"type":"file","name":"page.tsx"}
       ]},
-      {"type":"directory","name":"tests","contents":[
-        {"type":"file","name":"anaheim.spec.ts"}
+      {"type":"file","name":"favicon.ico"},
+      {"type":"file","name":"globals.css"},
+      {"type":"file","name":"layout.tsx"},
+      {"type":"file","name":"page.tsx"},
+      {"type":"directory","name":"profile"},
+      {"type":"file","name":"react-query-provider.tsx"}
+    ]},
+    {"type":"directory","name":"components","contents":[
+      {"type":"directory","name":"account","contents":[
+        {"type":"file","name":"account-data-access.tsx"},
+        {"type":"file","name":"account-detail-feature.tsx"},
+        {"type":"file","name":"account-list-feature.tsx"},
+        {"type":"file","name":"account-ui.tsx"}
       ]},
-      {"type":"file","name":"tsconfig.json"}
-    ]},
-    {"type":"file","name":"Auth0LockPasswordless.js"},
-    {"type":"directory","name":"coverage","contents":[
-      {"type":"file","name":"clover.xml"},
-      {"type":"file","name":"coverage-final.json"},
-      {"type":"file","name":"lcov.info"},
-      {"type":"directory","name":"lcov-report","contents":[
-        {"type":"file","name":"base.css"},
-        {"type":"file","name":"block-navigation.js"},
-        {"type":"file","name":"favicon.png"},
-        {"type":"file","name":"index.html"},
-        {"type":"file","name":"prettify.css"},
-        {"type":"file","name":"prettify.js"},
-        {"type":"file","name":"sort-arrow-sprite.png"},
-        {"type":"file","name":"sorter.js"}
-      ]}
-    ]},
-    {"type":"file","name":"eslint.config.js"},
-    {"type":"file","name":"eslint.config.mjs"},
-    {"type":"file","name":"jest.config.js"},
-    {"type":"directory","name":"lib","contents":[
-      {"type":"file","name":"db.js"}
-    ]},
-    {"type":"file","name":"LICENSE"},
-    {"type":"file","name":"next.config.mjs"},
-    {"type":"file","name":"next.config.ts"},
-    {"type":"file","name":"next-env.d.ts"},
-    {"type":"file","name":"nx.json"},
-    {"type":"file","name":"package.json"},
-    {"type":"file","name":"package-lock.json"},
-    {"type":"file","name":"pnpm-lock.yaml"},
-    {"type":"file","name":"pnpm-workspace.yaml"},
-    {"type":"file","name":"postcss.config.mjs"},
-    {"type":"directory","name":"public","contents":[
-      {"type":"file","name":"file.svg"},
-      {"type":"file","name":"globe.svg"},
-      {"type":"file","name":"logo.png"},
-      {"type":"file","name":"next.svg"},
-      {"type":"file","name":"vercel.svg"},
-      {"type":"file","name":"window.svg"}
-    ]},
-    {"type":"file","name":"README.md"},
-    {"type":"directory","name":"src","contents":[
-      {"type":"directory","name":"app","contents":[
-        {"type":"directory","name":"account","contents":[
-          {"type":"directory","name":"[address]","contents":[
-            {"type":"file","name":"page.tsx"}
-          ]},
-          {"type":"file","name":"page.tsx"}
-        ]},
-        {"type":"directory","name":"anaheim","contents":[
-          {"type":"file","name":"page.tsx"}
-        ]},
-        {"type":"directory","name":"api","contents":[
-          {"type":"directory","name":"hello","contents":[
-            {"type":"file","name":"route.ts"}
-          ]}
-        ]},
-        {"type":"directory","name":"clusters","contents":[
-          {"type":"file","name":"page.tsx"}
-        ]},
-        {"type":"file","name":"favicon.ico"},
-        {"type":"file","name":"globals.css"},
-        {"type":"file","name":"layout.tsx"},
-        {"type":"file","name":"page.tsx"},
-        {"type":"directory","name":"profile"},
-        {"type":"file","name":"react-query-provider.tsx"}
-      ]},
-      {"type":"directory","name":"components","contents":[
-        {"type":"directory","name":"account","contents":[
-          {"type":"file","name":"account-data-access.tsx"},
-          {"type":"file","name":"account-detail-feature.tsx"},
-          {"type":"file","name":"account-list-feature.tsx"},
-          {"type":"file","name":"account-ui.tsx"}
-        ]},
-        {"type":"directory","name":"anaheim","contents":[
-          {"type":"file","name":"anaheim-data-access.tsx"},
-          {"type":"file","name":"anaheim-feature.tsx"},
-          {"type":"file","name":"anaheim-ui.tsx"},
-          {"type":"directory","name":"path"}
-        ]},
-        {"type":"directory","name":"civicauth","contents":[
-          {"type":"file","name":"civicauthprovider.js"},
-          {"type":"file","name":"createcivicauthplugin.js"}
-        ]},
-        {"type":"directory","name":"cluster","contents":[
-          {"type":"file","name":"cluster-data-access.tsx"},
-          {"type":"file","name":"cluster-feature.tsx"},
-          {"type":"file","name":"cluster-ui.tsx"}
-        ]},
-        {"type":"directory","name":"dashboard","contents":[
-          {"type":"file","name":"dashboard-feature.tsx"}
-        ]},
-        {"type":"directory","name":"feed","contents":[
-          {"type":"file","name":"feed-data-access.tsx"},
-          {"type":"file","name":"feed-ui.tsx"},
-          {"type":"file","name":"new-post-feature.tsx"},
-          {"type":"file","name":"PostCard.tsx"}
-        ]},
+      {"type":"directory","name":"anaheim","contents":[
+        {"type":"file","name":"anaheim-data-access.tsx"},
+        {"type":"file","name":"anaheim-feature.tsx"},
+        {"type":"file","name":"anaheim-ui.tsx"},
         {"type":"directory","name":"hooks","contents":[
           {"type":"file","name":"useAccountQuery.tsx"},
           {"type":"file","name":"useAnaheimAccounts.tsx"},
@@ -129,19 +43,10 @@
           {"type":"file","name":"useAnaheimMutations.tsx"},
           {"type":"file","name":"useAnaheimProgram.tsx"}
         ]},
-        {"type":"directory","name":"idl","contents":[
-          {"type":"file","name":"anaheim.json"},
-          {"type":"file","name":"idl.json"}
-        ]},
-        {"type":"directory","name":"solana","contents":[
-          {"type":"file","name":"solana-provider.tsx"}
-        ]},
+        {"type":"directory","name":"path"},
         {"type":"directory","name":"types","contents":[
           {"type":"file","name":"anaheimAccount.tsx"},
           {"type":"file","name":"anaheim.tsx"}
-        ]},
-        {"type":"directory","name":"ui","contents":[
-          {"type":"file","name":"ui-layout.tsx"}
         ]},
         {"type":"directory","name":"utils","contents":[
           {"type":"file","name":"fetchAnaheimAccounts.tsx"},
@@ -149,68 +54,41 @@
           {"type":"file","name":"getAnaheimProgram.tsx"}
         ]}
       ]},
-      {"type":"directory","name":"idle","contents":[
-        {"type":"file","name":"anaheim.json"}
+      {"type":"directory","name":"civicauth","contents":[
+        {"type":"file","name":"civicauthprovider.js"},
+        {"type":"file","name":"createcivicauthplugin.js"}
       ]},
-      {"type":"directory","name":"shared"}
+      {"type":"directory","name":"cluster","contents":[
+        {"type":"file","name":"cluster-data-access.tsx"},
+        {"type":"file","name":"cluster-feature.tsx"},
+        {"type":"file","name":"cluster-ui.tsx"}
+      ]},
+      {"type":"directory","name":"dashboard","contents":[
+        {"type":"file","name":"dashboard-feature.tsx"}
+      ]},
+      {"type":"directory","name":"feed","contents":[
+        {"type":"file","name":"feed-data-access.tsx"},
+        {"type":"file","name":"feed-ui.tsx"},
+        {"type":"file","name":"new-post-feature.tsx"},
+        {"type":"file","name":"PostCard.tsx"}
+      ]},
+      {"type":"directory","name":"idl","contents":[
+        {"type":"file","name":"anaheim.json"},
+        {"type":"file","name":"idl.json"}
+      ]},
+      {"type":"directory","name":"solana","contents":[
+        {"type":"file","name":"solana-provider.tsx"}
+      ]},
+      {"type":"directory","name":"ui","contents":[
+        {"type":"file","name":"ui-layout.tsx"}
+      ]}
     ]},
-    {"type":"file","name":"tailwind.config.ts"},
-    {"type":"directory","name":"test-ledger","contents":[
-      {"type":"directory","name":"accounts","contents":[
-        {"type":"directory","name":"run","contents":[
-          {"type":"file","name":"0.2"},
-          {"type":"file","name":"100.0"},
-          {"type":"file","name":"39.1"}
-        ]},
-        {"type":"directory","name":"snapshot","contents":[
-          {"type":"directory","name":"100","contents":[
-            {"type":"file","name":"0.2"},
-            {"type":"file","name":"100.0"},
-            {"type":"file","name":"39.1"}
-          ]}
-        ]}
-      ]},
-      {"type":"file","name":"faucet-keypair.json"},
-      {"type":"file","name":"genesis.bin"},
-      {"type":"file","name":"genesis.tar.bz2"},
-      {"type":"directory","name":"rocksdb","contents":[
-        {"type":"file","name":"000014.sst"},
-        {"type":"file","name":"000015.sst"},
-        {"type":"file","name":"000016.sst"},
-        {"type":"file","name":"000017.sst"},
-        {"type":"file","name":"000018.sst"},
-        {"type":"file","name":"000019.sst"},
-        {"type":"file","name":"CURRENT"},
-        {"type":"file","name":"IDENTITY"},
-        {"type":"file","name":"LOCK"},
-        {"type":"file","name":"LOG"},
-        {"type":"file","name":"LOG.old.1740745973777261"},
-        {"type":"file","name":"MANIFEST-000021"},
-        {"type":"file","name":"OPTIONS-000027"},
-        {"type":"file","name":"OPTIONS-000029"}
-      ]},
-      {"type":"directory","name":"snapshot","contents":[
-        {"type":"directory","name":"100","contents":[
-          {"type":"file","name":"100"},
-          {"type":"directory","name":"accounts_hardlinks","contents":[
-            {"type":"link","name":"account_path_0","target":"test-ledger/accounts/snapshot/100"}
-          ]},
-          {"type":"file","name":"full_snapshot_slot"},
-          {"type":"file","name":"state_complete"},
-          {"type":"file","name":"status_cache"},
-          {"type":"file","name":"version"}
-        ]}
-      ]},
-      {"type":"file","name":"snapshot-100-BSTf2DQUbRKmfbLuGirLegGJ9i4Uod5r2H25Ebr2WnP4.tar.zst"},
-      {"type":"file","name":"stake-account-keypair.json"},
-      {"type":"file","name":"tower-1_9-7dfMmP3R3BPYJ4jskPyA9qRRttwTRVr65fzH8SGAqH3u.bin"},
-      {"type":"file","name":"validator-keypair.json"},
-      {"type":"file","name":"vote-account-keypair.json"}
+    {"type":"directory","name":"idle","contents":[
+      {"type":"file","name":"anaheim.json"}
     ]},
-    {"type":"file","name":"tree.json"},
-    {"type":"file","name":"tsconfig.json"},
-    {"type":"file","name":"tsconfig.tsbuildinfo"}
+    {"type":"directory","name":"shared"},
+    {"type":"file","name":"tree.json"}
   ]}
 ,
-  {"type":"report","directories":46,"files":123}
+  {"type":"report","directories":25,"files":43}
 ]

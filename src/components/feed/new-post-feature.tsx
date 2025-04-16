@@ -1,8 +1,11 @@
-import React from 'react';
+"use client";
+
+
+import React, { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 
-const NewPostForm = () => {
-    const [content, setContent] = React.useState('');
+const NewPostFeature = () => {
+    const [content, setContent] = React.useState(''); // Gestion de l'état local du formulaire
 
     const mutation = useMutation<Response, Error, { content: string }>({
         mutationFn: async (newPost) => {
@@ -18,23 +21,36 @@ const NewPostForm = () => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        mutation.mutate({ content });
-        setContent('');
+        mutation.mutate({ content }); // Envoie la mutation avec le contenu
+        setContent(''); // Réinitialise le formulaire après soumission
     };
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4">
             <textarea
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-                placeholder="Write your post..."
-                className="w-full p-2 border rounded"
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              className="w-full p-2 border rounded"
+              placeholder="Write a new post..."
             />
-            <button type="submit" className="btn mt-2">
-                Submit
-            </button>
-        </form>
+          <button
+            type="submit"
+            className="btn bg-blue-500 text-white rounded p-2"
+            disabled={mutation.status === 'pending'}
+          >
+              {mutation.status === 'pending' ? 'Submitting...' : 'Submit'}
+          </button>
+      </form>
     );
 };
 
-export default NewPostForm;
+export default function ClustersFeature() {
+  const [cluster, setCluster] = useState("");
+
+  return (
+    <div>
+      <h1>Cluster Component</h1>
+      <p>Cluster sélectionné : {cluster}</p>
+    </div>
+  );
+}
