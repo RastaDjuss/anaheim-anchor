@@ -7,7 +7,7 @@ export const ClusterNetworkEnum = {
 	Testnet: 'testnet',
 	MainnetBeta: 'mainnet-beta',
 	Custom: 'custom',
-	Mainnet: 'mainnet' // Correction : en minuscule pour harmonisation
+	Mainnet: 'mainnet', // Correction : en minuscule pour harmonisation
 } as const;
 export type ClusterNetworkEnum = typeof ClusterNetworkEnum[keyof typeof ClusterNetworkEnum];
 
@@ -29,31 +29,25 @@ export interface ClusterType {
 const defaultClusters: ClusterType[] = [
 	{
 		name: 'devnet',
-		endpoint: clusterApiUrl ( 'devnet' ),
+		endpoint: clusterApiUrl('devnet'),
 		network: ClusterNetwork.Devnet,
 		key: 'devnet',
-		value: 'devnet'
+		value: 'devnet',
 	},
 	{
 		name: 'local',
 		endpoint: 'http://localhost:8899',
 		network: ClusterNetwork.Custom,
 		key: 'local',
-		value: 'local'
+		value: 'local',
 	},
 	{
 		name: 'testnet',
-		endpoint: clusterApiUrl ( 'testnet' ),
+		endpoint: clusterApiUrl('testnet'),
 		network: ClusterNetwork.Testnet,
 		key: 'testnet',
-		value: 'testnet'
-	}
+		value: 'testnet',
+	},
 ];
 
-const clustersAtom: WritableAtom<ClusterType[], [SetStateAction<ClusterType[]>], void> = Object.assign (
-	atom<ClusterType[]> ( defaultClusters ),
-	{ initialValue: defaultClusters }
-);
-
-export function useCluster() {
-}
+const clustersAtom: WritableAtom<ClusterType[], [SetStateAction<ClusterType[]>], void> = atom<ClusterType[]>(defaultClusters);

@@ -350,3 +350,6 @@ function ModalSend({ hide, show, address }: { hide: () => void; show: boolean; a
     </AppModal>
   )
 }
+
+export class UiLayout {
+}

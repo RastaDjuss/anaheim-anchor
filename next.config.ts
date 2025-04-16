@@ -1,7 +1,8 @@
-const nextConfigs = {
-	reactStrictMode: true,
-	experimental: {
-		appDir: true,
+const path = require('path');
+
+module.exports = {
+	webpack: (config: Record<string, any>) => {
+		config.resolve.alias['@'] = path.resolve(__dirname, 'src');
+		return config;
 	},
 };
-export default nextConfigs;

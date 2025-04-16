@@ -1,61 +1,44 @@
 'use client';
 
-import dynamic from 'next/dynamic';
-import { AnchorProvider, AnchorProviderOptions } from '@coral-xyz/anchor';
+import { PhantomWalletAdapter, SolflareWalletAdapter } from '@solana/wallet-adapter-wallets';
 import { WalletError } from '@solana/wallet-adapter-base';
+import { ReactNode, useCallback, useMemo } from 'react';
+import { WalletProvider } from '@solana/wallet-adapter-react';
 import {
-  AnchorWallet,
-  useConnection,
-  useWallet,
   ConnectionProvider,
-  WalletProvider
 } from '@solana/wallet-adapter-react';
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
-import { ReactNode, useCallback, useMemo } from 'react';
-import { useCluster } from '../cluster/is-authenticated';
-
-require ( '@solana/wallet-adapter-react-ui/styles.css' );
-
-export const WalletButton = dynamic ( async () => (await import('@solana/wallet-adapter-react-ui')).WalletMultiButton, {
-  ssr: false
-} );
+export function useCluster(): { endpoint: string } {
+  const endpoint = useMemo(() => 'https://api.mainnet-beta.solana.com', []);
+  if (!endpoint.startsWith('https://')) {
+    throw new Error('Endpoint invalide');
+  }
+  return { endpoint };
+}
 
 export function SolanaProvider({ children }: { children: ReactNode }) {
   if (!children) {
-    return null; // Or return some fallback UI
+    return null;
   }
-  const { cluster }: { cluster: { endpoint: string } } = useCluster ();
-  const endpoint = useMemo ( () => cluster.endpoint, [cluster] );
-  const onError = useCallback ( (error: WalletError) => {
-    console.error ( 'Wallet error:', error );
-  }, [] );
+  const cluster = useCluster();
+  const wallets = useMemo(
+    () => [new PhantomWalletAdapter(), new SolflareWalletAdapter()],
+    []
+  );
+
+  const onError = useCallback((error: WalletError) => {
+    console.error('Wallet error:', error);
+    // Possibilité d'ajouter une notification utilisateur ou un monitoring
+  }, []);
 
   return (
-    <ConnectionProvider endpoint={endpoint}>
-      <WalletProvider wallets={[]} onError={onError} autoConnect={true}>
+    <ConnectionProvider endpoint={cluster.endpoint}>
+      <WalletProvider wallets={wallets} onError={onError} autoConnect>
         <WalletModalProvider>{children}</WalletModalProvider>
       </WalletProvider>
     </ConnectionProvider>
   );
 }
-
-export function useAnchorProvider() {
-  const { connection } = useConnection ();
-  const wallet = useWallet ();
-
-  const options: AnchorProviderOptions = useMemo ( () => ({ commitment: 'confirmed' }), [] );
-
-  if (!connection) {
-    console.error ( 'Connection is not available for AnchorProvider.' );
-    throw new Error ( 'Connection is required to initialize AnchorProvider.' );
-  }
-
-  if (!wallet) {
-    console.error ( 'Wallet is not available for AnchorProvider.' );
-    throw new Error ( 'Wallet is required to initialize AnchorProvider.' );
-  }
-
-  return useMemo ( () => {
-    return new AnchorProvider ( connection, wallet as AnchorWallet, options );
-  }, [connection, wallet, options] );
+export function WalletButton() {
+  return <button>Connect Wallet</button>;
 }

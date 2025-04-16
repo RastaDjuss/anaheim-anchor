@@ -1,4 +1,5 @@
 import {
+	any,
 	objectInputType,
 	objectOutputType,
 	z,
@@ -9,9 +10,17 @@ import {
 	ZodString,
 	ZodTypeAny
 } from 'zod';
-import { ClusterNetwork } from '../../components/cluster/is-authenticated';
 
-const ClusterNetworkEnum = ClusterNetwork as unknown as Record<string, string>;
+export function ClusterType() {
+}
+
+enum ClusterNetworkEnum {
+    // Dynamically populate entries based on the ClusterNetwork object
+
+}
+
+enum ClusterNetworkEnum {
+}
 
 export const clusterSchema: ZodObject<{
 	name: ZodString;
@@ -23,14 +32,14 @@ export const clusterSchema: ZodObject<{
 }, 'strip', ZodTypeAny, objectOutputType<{
 	name: ZodString;
 	endpoint: ZodString;
-	network: ZodOptional<ZodNativeEnum<typeof ClusterNetwork>>;
+	network: ZodOptional<ZodNativeEnum<typeof ClusterNetworkEnum>>;
 	active: ZodOptional<ZodBoolean>;
 	key: ZodString;
 	value: ZodString
 }, ZodTypeAny, 'strip'>, objectInputType<{
 	name: ZodString;
 	endpoint: ZodString;
-	network: ZodOptional<ZodNativeEnum<ClusterNetwork>>;
+	network: ZodOptional<ZodNativeEnum<typeof ClusterNetworkEnum>>;
 	active: ZodOptional<ZodBoolean>;
 	key: ZodString;
 	value: ZodString
@@ -42,3 +51,13 @@ export const clusterSchema: ZodObject<{
 	key: z.string(),
 	value: z.string()
 });
+
+export class ClusterNetwork {
+	Mainnet: ClusterNetwork | undefined;
+	static Mainnet: ClusterNetwork;
+	static Devnet: 'devnet' | 'testnet' | 'mainnet-beta' = 'devnet';
+	Cluster: any;
+	// Removed invalid or incomplete code
+	static Custom: any | 'devnet' | 'testnet' | 'mainnet-beta' | ClusterNetwork;
+	static Testnet: any | 'devnet' | 'testnet' | 'mainnet-beta' | ClusterNetwork;
+}
